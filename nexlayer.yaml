@@ -1,0 +1,31 @@
+application:
+  name: baserow
+  pods:
+  - name: app
+    image: baserow/baserow:latest
+    path: /
+    servicePorts:
+    - 80
+    vars:
+      BASEROW_PUBLIC_URL: "https://relaxed-weasel-baserow.cloud.nexlayer.ai"
+      DATABASE_HOST: postgres.pod
+      DATABASE_NAME: baserow
+      DATABASE_USER: baserow
+      DATABASE_PASSWORD: baserow
+      REDIS_HOST: redis.pod
+  - name: postgres
+    image: postgres:16-alpine
+    servicePorts:
+    - 5432
+    vars:
+      POSTGRES_DB: baserow
+      POSTGRES_USER: baserow
+      POSTGRES_PASSWORD: baserow
+    volumes:
+    - name: baserow-db
+      mountPath: /var/lib/postgresql/data
+      size: 10Gi
+  - name: redis
+    image: redis:7-alpine
+    servicePorts:
+    - 6379
