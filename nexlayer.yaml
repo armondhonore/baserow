@@ -6,6 +6,13 @@ application:
     path: /
     servicePorts:
     - 80
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "2Gi"
+      limits:
+        cpu: "2"
+        memory: "4Gi"
     vars:
       BASEROW_PUBLIC_URL: "https://relaxed-weasel-baserow.cloud.nexlayer.ai"
       DISABLE_VOLUME_CHECK: "yes"
@@ -14,7 +21,7 @@ application:
       DATABASE_USER: baserow
       DATABASE_PASSWORD: "${POSTGRES_PASSWORD}"
       REDIS_HOST: redis.pod
-      REDIS_PASSWORD: ""
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
       REDIS_PORT: "6379"
       REDIS_PROTOCOL: "redis"
   - name: postgres
@@ -31,5 +38,6 @@ application:
       size: 10Gi
   - name: redis
     image: redis:7-alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD}
     servicePorts:
     - 6379
