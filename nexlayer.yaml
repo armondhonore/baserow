@@ -8,10 +8,11 @@ application:
     - 80
     vars:
       BASEROW_PUBLIC_URL: "https://relaxed-weasel-baserow.cloud.nexlayer.ai"
+      DISABLE_VOLUME_CHECK: "yes"
       DATABASE_HOST: postgres.pod
       DATABASE_NAME: baserow
       DATABASE_USER: baserow
-      DATABASE_PASSWORD: baserow
+      DATABASE_PASSWORD: "${POSTGRES_PASSWORD}"
       REDIS_HOST: redis.pod
   - name: postgres
     image: postgres:16-alpine
